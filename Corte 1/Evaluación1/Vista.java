@@ -8,6 +8,36 @@ public class Vista extends JFrame {
 
     public Vista(Banco banco) {
         this.banco = banco;
+        inicializarComponentes();
+    }
+
+    // Getters y setters para los atributos privados
+
+    public Banco getBanco() {
+        return banco;
+    }
+
+    public void setBanco(Banco banco) {
+        this.banco = banco;
+    }
+
+    public JLabel getSaldoLabel() {
+        return saldoLabel;
+    }
+
+    public void setSaldoLabel(JLabel saldoLabel) {
+        this.saldoLabel = saldoLabel;
+    }
+
+    public JTextField getCantidadField() {
+        return cantidadField;
+    }
+
+    public void setCantidadField(JTextField cantidadField) {
+        this.cantidadField = cantidadField;
+    }
+
+    private void inicializarComponentes() {
         setTitle("Cajero Automático");
         setSize(350, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,7 +64,7 @@ public class Vista extends JFrame {
         retirarBtn.setBounds(140, 100, 100, 30);
         add(retirarBtn);
 
-       JButton saldoBtn = new JButton("Mostrar Saldo");
+        JButton saldoBtn = new JButton("Mostrar Saldo");
         saldoBtn.setBounds(250, 100, 120, 30);
         add(saldoBtn);
 
@@ -42,7 +72,7 @@ public class Vista extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 double cantidad = obtenerCantidad();
                 if (cantidad > 0) {
-                    banco.depositar(cantidad);
+                    getBanco().depositar(cantidad);
                     actualizarSaldo();
                 } else {
                     mostrarMensaje("Ingrese una cantidad válida.");
@@ -54,7 +84,7 @@ public class Vista extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 double cantidad = obtenerCantidad();
                 if (cantidad > 0) {
-                    if (banco.retirar(cantidad)) {
+                    if (getBanco().retirar(cantidad)) {
                         actualizarSaldo();
                     } else {
                         mostrarMensaje("Fondos insuficientes.");
@@ -74,14 +104,14 @@ public class Vista extends JFrame {
 
     private double obtenerCantidad() {
         try {
-            return Double.parseDouble(cantidadField.getText());
+            return Double.parseDouble(getCantidadField().getText());
         } catch (NumberFormatException e) {
             return -1;
         }
     }
 
     private void actualizarSaldo() {
-        saldoLabel.setText("Saldo disponible: $" + banco.getSaldo());
+        getSaldoLabel().setText("Saldo disponible: $" + getBanco().getSaldo());
     }
 
     private void mostrarMensaje(String mensaje) {
